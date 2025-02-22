@@ -32,8 +32,8 @@ The **Health Care** backend is a RESTful API built using **Node.js, Express.js, 
 
 ### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/your-username/bayer-health-care-backend.git
-cd bayer-health-care-backend
+git clone https://github.com/v2verma/healthcare-backend.git
+cd healthcare-backend
 
 2️⃣ Install Dependencies
 npm install

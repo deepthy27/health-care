@@ -1,7 +1,7 @@
-# Bayer Health Care - Frontend 🏥
+# Health Care - Frontend 🏥
 
 ## Overview  
-The **Bayer Health Care** frontend is a React-based web application designed to provide patients with an interactive **dashboard** to track their **health goals, medications, and personal information**. The UI is built using **React.js, Material UI, Vite, and Redux Toolkit**, ensuring a smooth and responsive user experience.
+The **Health Care** frontend is a React-based web application designed to provide patients with an interactive **dashboard** to track their **health goals, medications, and personal information**. The UI is built using **React.js, Material UI, Vite, and Redux Toolkit**, ensuring a smooth and responsive user experience.
 
 ---
 
@@ -27,14 +27,14 @@ The **Bayer Health Care** frontend is a React-based web application designed to 
 ## Installation & Setup 🏗  
 ### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/your-username/bayer-health-care-frontend.git
-cd bayer-health-care-frontend
+git clone https://github.com/v2verma/healthcare-portal.git
+cd healthcare-portal
 
 Install Dependencies
 npm install
 
 Set Up Environment Variables
-VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=http://localhost:5000/
 
 Running the Application ▶️
 npm run dev
