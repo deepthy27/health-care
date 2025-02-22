@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { 
-  AppBar, Toolbar, IconButton, Typography, Container, Grid, Card, CardContent, 
-  Box, Avatar, Button, Drawer, List, ListItem, ListItemIcon, ListItemText, Divider
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Box,
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,6 +28,10 @@ import MailIcon from "@mui/icons-material/Mail";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import HotelIcon from "@mui/icons-material/Hotel";
+import ProfilePage from "./ProfilePage";
+import WellnessGoals from "./WellnessGoals";
+import Messages from "./Messages";
+import MetricsDashboard from "./MetricsDashboard";
 
 const drawerWidth = 250; // Sidebar width
 
@@ -30,7 +49,7 @@ const HealthDashboard = () => {
       "Regular exercise improves mental health and reduces stress.",
       "A good night's sleep is essential for overall wellness.",
       "Eat a balanced diet rich in fruits and vegetables.",
-      "Take short breaks to stretch and move during work hours."
+      "Take short breaks to stretch and move during work hours.",
     ];
     setHealthTip(tips[Math.floor(Math.random() * tips.length)]);
   }, []);
@@ -55,22 +74,31 @@ const HealthDashboard = () => {
   return (
     <>
       {/* AppBar with dynamic positioning */}
-      <AppBar 
-        position="static" 
+      <AppBar
+        position="static"
         sx={{
           width: sidebarOpen ? `calc(100% - ${drawerWidth}px)` : "100%",
           marginLeft: sidebarOpen ? `${drawerWidth}px` : 0,
-          transition: "margin 0.3s ease-in-out, width 0.3s ease-in-out"
+          transition: "margin 0.3s ease-in-out, width 0.3s ease-in-out",
         }}
       >
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar(true)}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleSidebar(true)}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Health & Wellness Dashboard
           </Typography>
-          <Button color="inherit" startIcon={<ExitToAppIcon />} onClick={handleLogout}>
+          <Button
+            color="inherit"
+            startIcon={<ExitToAppIcon />}
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Toolbar>
@@ -80,7 +108,14 @@ const HealthDashboard = () => {
       <Drawer anchor="left" open={sidebarOpen} onClose={toggleSidebar(false)}>
         <Box sx={{ width: drawerWidth }} role="presentation">
           {/* Sidebar Header */}
-          <Box sx={{ bgcolor: "primary.main", color: "white", p: 2, textAlign: "center" }}>
+          <Box
+            sx={{
+              bgcolor: "primary.main",
+              color: "white",
+              p: 2,
+              textAlign: "center",
+            }}
+          >
             <Typography variant="h6">Welcome, User!</Typography>
           </Box>
           <Divider />
@@ -89,22 +124,33 @@ const HealthDashboard = () => {
           <List>
             {[
               { text: "Dashboard", icon: <DashboardIcon color="primary" /> },
-              { text: "My Profile", icon: <AccountCircleIcon color="secondary" /> },
-              { text: "Wellness Goals", icon: <FitnessCenterIcon color="success" /> },
+              {
+                text: "My Profile",
+                icon: <AccountCircleIcon color="secondary" />,
+              },
+              {
+                text: "Wellness Goals",
+                icon: <FitnessCenterIcon color="success" />,
+              },
               { text: "Messages", icon: <MailIcon color="error" /> },
             ].map((item) => (
-              <ListItem 
-                button 
-                key={item.text} 
+              <ListItem
+                button
+                key={item.text}
                 selected={selectedSection === item.text}
                 onClick={() => handleSectionChange(item.text)}
                 sx={{
-                  bgcolor: selectedSection === item.text ? "#e0e0e0" : "transparent",
+                  bgcolor:
+                    selectedSection === item.text ? "#e0e0e0" : "transparent",
                   "&.Mui-selected": { bgcolor: "#1976d2", color: "white" },
-                  "&.Mui-selected:hover": { bgcolor: "#1565c0" }
+                  "&.Mui-selected:hover": { bgcolor: "#1565c0" },
                 }}
               >
-                <ListItemIcon sx={{ color: selectedSection === item.text ? "white" : "inherit" }}>
+                <ListItemIcon
+                  sx={{
+                    color: selectedSection === item.text ? "white" : "inherit",
+                  }}
+                >
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -115,80 +161,23 @@ const HealthDashboard = () => {
       </Drawer>
 
       {/* Main Content Based on Selection */}
-      <Container maxWidth="md" sx={{ mt: 4, transition: "margin 0.3s ease-in-out", marginLeft: sidebarOpen ? `${drawerWidth}px` : 0 }}>
-        {selectedSection === "Dashboard" && (
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                <Avatar sx={{ bgcolor: "#1976d2", mr: 2 }}>
-                  <DirectionsWalkIcon />
-                </Avatar>
-                <CardContent>
-                  <Typography variant="h6">Steps</Typography>
-                  <Typography variant="h5">7,500</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+      <Container
+        maxWidth="md"
+        sx={{
+          mt: 4,
+          transition: "margin 0.3s ease-in-out",
+          marginLeft: sidebarOpen ? `${drawerWidth}px` : 0,
+        }}
+        position = "relative"
+        left= "100px"
+      >
+        {selectedSection === "Dashboard" && <MetricsDashboard/>}
 
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                <Avatar sx={{ bgcolor: "#ff9800", mr: 2 }}>
-                  <AccessTimeIcon />
-                </Avatar>
-                <CardContent>
-                  <Typography variant="h6">Active Time</Typography>
-                  <Typography variant="h5">45 mins</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+        {selectedSection === "My Profile" && <ProfilePage />}
 
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                <Avatar sx={{ bgcolor: "#4caf50", mr: 2 }}>
-                  <HotelIcon />
-                </Avatar>
-                <CardContent>
-                  <Typography variant="h6">Sleep</Typography>
-                  <Typography variant="h5">7h 30m</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        )}
+        {selectedSection === "Wellness Goals" && <WellnessGoals />}
 
-        {selectedSection === "My Profile" && (
-          <Card sx={{ p: 2 }}>
-            <CardContent>
-              <Typography variant="h6">My Profile</Typography>
-              <Typography>Name: John Doe</Typography>
-              <Typography>Age: 30</Typography>
-              <Typography>Height: 5'9"</Typography>
-              <Typography>Weight: 75kg</Typography>
-            </CardContent>
-          </Card>
-        )}
-
-        {selectedSection === "Wellness Goals" && (
-          <Card sx={{ p: 2 }}>
-            <CardContent>
-              <Typography variant="h6">Wellness Goals</Typography>
-              <Typography>- Walk 10,000 steps daily</Typography>
-              <Typography>- Exercise for 30 mins</Typography>
-              <Typography>- Sleep at least 7 hours</Typography>
-              <Typography>- Maintain a healthy diet</Typography>
-            </CardContent>
-          </Card>
-        )}
-
-        {selectedSection === "Messages" && (
-          <Card sx={{ p: 2 }}>
-            <CardContent>
-              <Typography variant="h6">Messages</Typography>
-              <Typography>- Reminder: Annual Health Check-up in 10 days</Typography>
-              <Typography>- Tip: Stay hydrated for better health!</Typography>
-            </CardContent>
-          </Card>
-        )}
+        {selectedSection === "Messages" && <Messages />}
       </Container>
     </>
   );
