@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Container, TextField, Button, Typography, Box, Snackbar, Alert, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom"; // For navigation
-import axios from "axios";
+import { 
+  Container, TextField, Button, Typography, Box, Snackbar, Alert, Link, CircularProgress 
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth"; // Import custom hook
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,53 +13,40 @@ const Login = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertType, setAlertType] = useState("error");
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+  const { login, loading } = useAuth(); // Use custom hook
 
   const validateEmail = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   const validatePassword = (password) => password.length >= 6;
 
   const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    setErrors((prev) => ({
-      ...prev,
-      email: value && !validateEmail(value) ? "Invalid email format" : "",
-    }));
+    setEmail(e.target.value);
+    setErrors((prev) => ({ ...prev, email: !validateEmail(e.target.value) ? "Invalid email format" : "" }));
   };
 
   const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
+    setPassword(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      password: value && !validatePassword(value) ? "Password must be at least 6 characters" : "",
+      password: !validatePassword(e.target.value)
+        ? "Password must be at least 6 characters"
+        : "",
     }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password || errors.email || errors.password) return;
-  
-    try {
-      const response = await axios.post("http://localhost:5000/login", { email, password });
-      
-      // Store token in local storage
-      localStorage.setItem("token", response.data.token);
-      
-      // Show success message
-      setMessage("Login Successful!");
-      setAlertType("success");
-      
-      // Navigate to Health Dashboard after login
-     // setTimeout(() => navigate("/dashboard"), 1000);  // Add delay for better UX
-    } catch (error) {
-      setMessage(error.response?.data?.message || "Login Failed");
-      setAlertType("error");
+
+    const response = await login(email, password);
+    setMessage(response.message);
+    setAlertType(response.success ? "success" : "error");
+    setAlertOpen(true);
+
+    if (response.success) {
       setTimeout(() => navigate("/health-dashboard"), 1000);
     }
-    setAlertOpen(true);
   };
-  
 
   return (
     <Container maxWidth="xs">
@@ -75,8 +64,9 @@ const Login = () => {
             error={!!errors.password} helperText={errors.password}
           />
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}
-            disabled={!email || !password || !!errors.email || !!errors.password}>
-            Login
+            disabled={!email || !password || !!errors.email || !!errors.password || loading}
+          >
+            {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
         </form>
 
@@ -87,7 +77,7 @@ const Login = () => {
           </Link>
           <Typography sx={{ mt: 1 }}>
             Don't have an account?{" "}
-            <Link href="#" onClick={() => navigate("/signup")} underline="hover">
+            <Link href="#" onClick={() => navigate("/register")} underline="hover">
               Sign Up
             </Link>
           </Typography>
